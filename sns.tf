@@ -1,5 +1,5 @@
 resource "aws_sns_topic" "person_updates" {
-  name            = var.sns_topic_name
+  name = var.sns_topic_name
   delivery_policy = <<EOF
 {
   "http": {
@@ -19,15 +19,12 @@ resource "aws_sns_topic" "person_updates" {
   }
 }
 EOF
+   
 
-  #rovisioner "local-exec" {
-  #
-  #   command = "sh sns_subsciption.sh"
-  #   environment = {
-  #   sns_arn = self.arn
-  #   sns_emails = var.sns_subscription_email_address_list
-  #
-  #
+   provisioner "local-exec" {
+    command = "aws sns subscribe --topic-arn ${aws_sns_topic.person_updates.arn} --protocol email --notification-endpoint ${var.sns_subscription_email_address_list}"
+
+}
 }
 
 # Subscribe the Lambda Function to the Topic

@@ -9,7 +9,7 @@ data "archive_file" "lambda_function_payload" {
 
 resource "aws_lambda_function" "lambda" {
   function_name    = "lambda_Serverless"
-  role             = aws_iam_role.lambda_exec.arn
+  role             =  aws_iam_role.lambda_exec.arn
   handler          = "export.handler"
   filename         = data.archive_file.lambda_function_payload.output_path
   source_code_hash = data.archive_file.lambda_function_payload.output_base64sha256
